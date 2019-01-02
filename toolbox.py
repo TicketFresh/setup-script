@@ -31,13 +31,20 @@ if __name__ == "__main__":
     Called via python toolbox.py config"""
     config_parser = subparsers.add_parser('config', argument_default='-m',
         help='Allows you to configurean existing TicketFresh instance')
-
     config_parser.add_argument('-d', "--default",
         help='Sets all instance settings back to default settings')
-
     config_parser.add_argument('-m', "--menu", action='store_true',
         dest="config_menu", help="allows you to access the configuration menu")
+    config_parser.add_argument('-ng', "--no_gui",
+        help="Used in headless OS systems so the tkinter file dialog dosen't appear")
 
+
+    """ All the code for initializing the monitoring parser 
+    Called via python toolbox.py monitor"""
+    config_parser = subparsers.add_parser('monitor', argument_default='-m',
+        help='Allows you to configurean existing TicketFresh instance')
+    config_parser.add_argument('-m', "--menu", action='store_true',
+        dest="monitor_menu", help="allows you to access the monitoring menu")
     config_parser.add_argument('-ng', "--no_gui",
         help="Used in headless OS systems so the tkinter file dialog dosen't appear")
 
