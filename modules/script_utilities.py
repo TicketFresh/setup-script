@@ -8,12 +8,45 @@ def clear_terminal():
     else:
         os.system('clear')
 
-def get_ip():
-    if os.name=='nt': #Windows
-        return "ipconfig"
+def terminal_pathfind():
+    """ Lets terminal users find and/or create directories
+    returns path as a string"""
+    selected_directory = False # Remains false while no existing directory has been selected
 
-    else:
-        return "ifconfig"
+    while not selected_directory:
+        current_dir_contents = ' | '.join(map(str, os.listdir()))
+        clear_terminal()
+        
+        print("Current directory is {} \n\nThe directory contains: \n{}".format(os.getcwd(), current_dir_contents))
+
+        choice = input("\nNote: you can use .. to go up a directory and mkdir to create a directory \nPlease select a directory: ")
+        if choice.lower() == "mkdir":
+            directory_name = str(input("What would you like to call the directory?: "))
+            try:
+                os.mkdir(directory_name)
+            except expression as identifier:
+                print("Invalid selection made \nError: {}".format(identifier))
+            
+        # If they've selected the right folder
+        elif choice.lower() == "here":
+            chosen_directory = os.getcwd()
+            return chosen_directory
+
+        # If user wants to navigate to a different folder
+        elif not choice.lower() == "here":
+            try:
+                os.chdir(choice)
+                selection = validate_menu_options(max = 2, min = 1,
+                message="Current Path: {} \nWould you like to use the current path? (1)Yes (2)No :".format(os.getcwd()) )
+
+                if selection == 1:
+                    chosen_directory = os.getcwd()
+                    return chosen_directory
+                    selected_directory = True
+                else:
+                    continue
+            except NotADirectoryError:
+                print("Invalid selection made choice is not a directory")
 
 
 def select_directory(gui=True, use_cwd=False):
@@ -23,8 +56,8 @@ def select_directory(gui=True, use_cwd=False):
         return str(os.getcwd())
 
     if gui == False:
-        #TODO Figure out how to do a path selection in terminal
-        pass
+        return terminal_pathfind()
+
 
     # GUI based file selector
     if gui == True:
@@ -47,18 +80,17 @@ def save_config_to_file(data, file_path):
         json.dump(data, write_file)
 
 
-def validate_menu_options(max=1, min=0):
+def validate_menu_options(max=1, min=0, message = "Please select option between {} and {}".format(min, max)):
     """
     Takes three parameters:
     max: The maximum value
     min: The minimum value
-    options: A dictionary with the option numbers as the keys, and the function calls as the values
-    text: The text to explain what each option does
+    Message: A message to explain what selections are possible
     """
     valid_answer = False
     while valid_answer == False:
         try:
-            selection = eval(input("What is your selection?: "))
+            selection = eval(input(message))
         except:
             print("Invalid input please try again")
         
@@ -75,6 +107,6 @@ def validate_menu_options(max=1, min=0):
             valid_answer = True
             
 
-
-if __name__ == "__main__":
-    validate_menu_options()
+class terminal_menu:
+    def __init__(self, title = "Menu title" ):
+        pass
