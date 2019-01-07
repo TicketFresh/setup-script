@@ -5,7 +5,8 @@ Available Commands:
     config; Allows you to change the configuration of the instance defined in toolbox
 """
 import argparse
-from modules.configure_instance import configuration_menu
+import os
+from options.config.configure_instance import configuration_menu
 
 if __name__ == "__main__":
     # Setting up Main Argument Parser
@@ -45,4 +46,5 @@ if __name__ == "__main__":
     args = main_parser.parse_args()
 
     if args.config_menu:
+        os.chdir("options{}config".format(os.sep))
         configuration_menu()
